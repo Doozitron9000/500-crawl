@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+@{
+    Layout = "~/Views/Shared/_Authentication.cshtml";
+}
+
+<div>
+    <h1 class="display-4">Sign-Up</h1>
+    <div class="input-field">
+        <label for="username">Username</label>
+        <input id="username" type="text"/>
+    </div>
+    <div class="input-field">
+        <label for="password">Password</label>
+        <input id="password" type="password"/>
+    </div>
+    <div class="input-field">
+        <label for="conf-password">Confirm Password</label>
+        <input id="conf-password" type="password"/>
+    </div>
+    <a class="login-link" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+</div>
