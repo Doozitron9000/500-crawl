@@ -9,28 +9,24 @@ body {
 .container {
     background-color: #eef0ff;
     min-width: 300px;
-    min-height: 400px;
-    border: 20px solid #3a2f6b;
-    border-radius: 40px;
-}
-
-div {
+    height: 400px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    border: 20px solid #3a2f6b;
+    border-radius: 40px;
 }
 
 h1 {
     text-align: center;
     color: #1f2340;
-    margin: 30px;
+    margin: 20px;
 }
 
 .input-field {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 10px 10px;
+    margin: 5px 10px;
 }
 
 label {
@@ -43,4 +39,52 @@ label {
     font-weight: 600;
     font-size: large;
     margin-bottom: 20px;
+    margin-top: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+main {
+    height: 100%;
+}
+
+.auth-btn {
+    background-color: #3a2f6b;
+    color: #eef0ff;
+    margin: 5px 30px;
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    padding: 4px;
+
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.auth-btn:hover {
+    background-color: #4b4f9a;
+}
+
+.auth-btn:active {
+    background-color: #261e4d;
+}
+
+.error {
+    color: #b8113a;
+    font-weight: 600;
+    margin: 5px;
 }

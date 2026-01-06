@@ -26,13 +26,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="_500Crawl">500 Crawl</a>
                         </li>
-                    </ul>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    @*Display the username if the user is logged in*@
+                    @{
+                        var username = Context.Session.GetString("Username");
+                    }
+                    @if (!string.IsNullOrEmpty(username))
+                    {
+                        <li class="nav-item dropdown ms-auto">
+                            <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@username</button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Login" asp-action="Logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ms-auto">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                        </li>
+                    }  
                 </div>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <a>Username</a>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                    </li>
+                    </ul>
                 </div>
             </div>
         </nav>

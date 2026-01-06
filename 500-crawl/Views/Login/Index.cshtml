@@ -6,15 +6,23 @@
     Layout = "~/Views/Shared/_Authentication.cshtml";
 }
 
-<div class="text-center">
+@section Scripts {
+    <script src="~/js/login.js"></script>
+}
+
+<div class="auth-area">
     <h1 class="display-4">Login</h1>
-    <div class="input-field">
-        <label for="username">Username</label>
-        <input id="username" type="text"/>
-    </div>
-    <div class="input-field">
-        <label for="username">Password</label>
-        <input id="password" type="password"/>
-    </div>
+    <form id="login-form" method="post" asp-controller="Login" asp-action="Login"> 
+        <div class="input-field">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username"/>
+        </div>
+        <div class="input-field">
+            <label for="username">Password</label>
+            <input id="password" type="password" name="password"/>
+        </div>
+        <button id="login-btn" class="auth-btn">Login</button>
+    </form>
+    <h4 class="error"></h4>
     <a class="login-link" asp-area="" asp-controller="Login" asp-action="Signup">Sign-Up</a>
 </div>

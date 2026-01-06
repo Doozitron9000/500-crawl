@@ -1,4 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// this is all copied pretty closely from the microsoft website (e.g. I've just copied their exception string) with just the relevant vars changed.
+// get the connections string for the db from appsettings.json and if it isnt found throw an exception using a ternary
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string"
+        + "'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<SiteDbContext>(options =>
+    options.UseSqlite(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -26,12 +38,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+// tell the app to use sessions
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-// tell the app to use sessions
-app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
