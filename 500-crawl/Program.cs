@@ -1,3 +1,4 @@
+using _500_crawl.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,20 @@ builder.Services.AddDbContext<SiteDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// add the password hasher
+builder.Services.AddScoped<
+    Microsoft.AspNetCore.Identity.IPasswordHasher<User>,
+    Microsoft.AspNetCore.Identity.PasswordHasher<User>
+>();
+
+// Make our auth options class auto fill its props via the authentication section in appsettings
+// and break the app if it isn't correctly configured so we can't start without our pepper
+builder.Services.AddOptions<AuthenticationOptions>().Bind(builder.Configuration.GetSection("Authentication"))
+    .Validate(
+        o => !string.IsNullOrEmpty(o.PasswordPepper),
+        "Password pepper must be configured!"
+    ).ValidateOnStart();
 
 // enable sessions and have them last 30mins for now
 builder.Services.AddDistributedMemoryCache();
