@@ -1,0 +1,224 @@
+body {
+  background-color: #0a0a1a;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#play-area {
+    position: absolute;
+    top: 56px;      /* height of top navbar */
+    bottom: 0;   /* height of bottom navbar */
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#decision-screen {
+    display: none;
+    flex: 3;
+    width: 100%;
+    margin: 0;
+    flex-direction: row;
+}
+
+#preparing-screen {
+    display: none;
+    flex: 3;
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#playing-screen {
+    display: none;
+    background-color: red;
+    flex: 3;
+    width: 100%;
+    margin: 0;
+}
+
+[data-state="deciding"] #decision-screen {
+    display: flex;
+}
+
+[data-state="preparing"] #preparing-screen {
+    display: flex;
+}
+
+[data-state="playing"] #playing-screen {
+    display: flex;
+}
+
+.health {
+    position: absolute;
+    top: 20px;
+}
+
+#player-health {
+    left: 40px;
+    color: rgb(4, 36, 218);
+}
+
+#ai-health {
+    right: 40px;
+    color: rgb(172, 9, 9);
+}
+
+#trumps {
+    left: 40%;
+}
+
+#target-score {
+    right: 45%;
+}
+
+#player-wins {
+    left: 25%;
+}
+
+#ai-wins {
+    right: 30%;
+}
+
+#card-area {
+    flex: 2;
+    margin: 0;
+}
+
+#card-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    bottom: 2%;
+    position: fixed;
+}
+
+#card-list > li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+}
+
+#kitty-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    width: 60%;
+    padding: 0;
+    margin: 50px;
+}
+
+#kitty-list > li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+    margin: 30px;
+}
+
+.card {
+    flex: 1;
+    aspect-ratio: 2/3;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
+.card-value {
+    text-align: center;
+}
+
+.card-suit {
+    text-align: center;
+}
+
+.card[data-suit="Ground"] {
+    background-color: brown;
+    color: rgb(18, 37, 2);
+}
+
+.card[data-suit="Water"] {
+    background-color: rgb(73, 197, 214);
+    color: rgb(2, 1, 37);
+}
+
+.card[data-suit="Air"] {
+    background-color: rgb(231, 229, 212);
+    color: rgb(49, 2, 2);
+}
+
+.card[data-suit="Arcane"] {
+    background-color: rgb(112, 6, 133);
+    color: rgb(192, 220, 245);
+}
+
+.card[data-suit="Dragon"] {
+    background-color: rgb(170, 125, 0);
+    color: rgb(43, 3, 3);
+}
+
+.main-button{
+    border: none;
+    font-size:xx-large;
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: none;
+    outline: none;
+}
+
+#attack-button {
+    background-color: rgb(78, 11, 11);
+    color: rgb(238, 217, 160);
+}
+
+#defend-button {
+    background-color: rgb(4, 61, 37);
+    color: rgb(237, 238, 160);
+    height: 60%;
+    width: 50%;
+}
+
+.left {
+    flex: 1;
+    align-items: center; 
+    display: flex;
+    justify-content: center;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    align-items: center; 
+}
+
+#attack-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.select-field {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#attack-form h1{
+    text-align: center;
+}
+
+.card.selected {
+    box-shadow: 10px black;
+    transform: translateY(-25px);
+}

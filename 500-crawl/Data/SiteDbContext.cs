@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using _500_crawl.Authentication;
+using _500_crawl.Models.Game;
 
 public class SiteDbContext : DbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<GameState> Games => Set<GameState>();
     public SiteDbContext(DbContextOptions<SiteDbContext> options)
         : base(options)
     {
@@ -25,9 +27,30 @@ public class SiteDbContext : DbContext
             e.Property(u => u.Id).HasColumnName("id");
             e.Property(u => u.Username).HasColumnName("username");
             e.Property(u => u.PasswordHash).HasColumnName("password_hash");
+            e.Property(u => u.GameId).HasColumnName("game_id");
 
             // make sure user is unique when we try and create one
             e.HasIndex(u => u.Username).IsUnique();
+        });
+
+        // do the same for game state
+        modelBuilder.Entity<GameState>(e =>
+        {
+            e.ToTable("games");
+            e.Property(g => g.Id).HasColumnName("id");
+            e.Property(g => g.Phase).HasColumnName("phase");
+            e.Property(g => g.PlayerHand).HasColumnName("player_hand");
+            e.Property(g => g.AiHand).HasColumnName("ai_hand");
+            e.Property(g => g.PlayerHealth).HasColumnName("player_health");
+            e.Property(g => g.AiHealth).HasColumnName("ai_health");
+            e.Property(g => g.WonHands).HasColumnName("won_hands");
+            e.Property(g => g.LostHands).HasColumnName("lost_hands");
+            e.Property(g => g.DeckSeed).HasColumnName("deck_seed");
+            e.Property(g => g.DeckPlace).HasColumnName("deck_place");
+            e.Property(g => g.RoundTarget).HasColumnName("round_target");
+            e.Property(g => g.PlayerLeading).HasColumnName("player_leading");
+            e.Property(g => g.Trumps).HasColumnName("trumps");
+            e.Property(g => g.AiState).HasColumnName("ai_state");
         });
     }
 }

@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using _500_crawl.Authentication;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +12,7 @@ var connectionString =
         ?? throw new InvalidOperationException("Connection string"
         + "'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<SiteDbContext>(options =>
-    options.UseSqlite(connectionString));
+builder.Services.AddDbContext<SiteDbContext>(options => options.UseSqlite(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -108,6 +108,7 @@ public class LoginController : Controller
 
         // If we made it here all is correct so we can procede with the login
         HttpContext.Session.SetString("Username", username);
+        HttpContext.Session.SetInt32("UserID", user.Id);
         return Ok();
     }
 
