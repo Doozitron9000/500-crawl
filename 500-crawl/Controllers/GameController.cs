@@ -79,7 +79,7 @@ public class GameController : Controller
         Console.WriteLine(aiCard);
         // now evaluate the cards first ruling out thge dragon
         bool playerWins = aiCard != 40;
-        if(card != 40)
+        if(card != 40 && playerWins)
         {
             bool sameSuit = aiCard/10 == card/10;
             if (sameSuit)

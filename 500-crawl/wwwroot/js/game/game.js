@@ -129,7 +129,8 @@ function updateGame(){
     // get the opponents card
     const opponentCardValue = receivedGameState.aiCard;
     const opponentValue = opponentCardValue%10;
-    const opponentSuit = Math.floor(opponentCardValue/10);
+    const opponentSuitValue = Math.floor(opponentCardValue/10);
+    const opponentSuit = Object.values(Suits)[opponentSuitValue];
     
     const opponentCard = document.getElementById("opponent-card");
     const opponentSuitArea = document.getElementById("opponent-card-s");
