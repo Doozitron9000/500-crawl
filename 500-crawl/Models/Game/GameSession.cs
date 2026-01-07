@@ -59,9 +59,49 @@ public class GameSession
             Trumps = Suit.Ground,
             AiState = 0L
         };
-
+        // =/.....
+        long overlap = playerHand.HandBits & aiHand.HandBits;
+        if (overlap != 0)
+        {
+            for (int i = 0; i < 41; i++)
+            {
+                if ((overlap & (1L << i)) != 0)
+                {
+                    throw new Exception($"DUPLICATE CARD DEALT AT DRAW TIME: {i}");
+                }
+            }
+        }
         database.Games.Add(State);
         database.SaveChanges();
+    }
+
+    public void nextRound()
+    {
+        // generate the seed then use it to make the deck and the initial hands
+        int seed = RandomNumberGenerator.GetInt32(int.MaxValue);
+        Hand playerHand = new Hand();
+        Hand aiHand = new Hand();
+        Deck deck = new Deck(seed);
+        // the player gets the first 10 cards and the ai gets the next 10
+        foreach (int card in deck.DrawCards(10))
+        {
+            playerHand.addCard(card);
+        }
+        foreach (int card in deck.DrawCards(10))
+        {
+            aiHand.addCard(card);
+        }
+
+        State.Phase = GamePhase.Deciding;
+        State.PlayerHand = playerHand.HandBits;
+        State.AiHand = aiHand.HandBits;
+        State.WonHands = 0;
+        State.LostHands = 0;
+        State.DeckSeed = seed;
+        State.DeckPlace = deck.CurrentCard;
+        State.PlayerLeading = true;
+        State.AiState = 0L;
+        State.AiCard = 0;
     }
 
     /// <summary>
@@ -103,7 +143,8 @@ public class GameSession
             LostHands = State.LostHands,
             RoundTarget = State.RoundTarget,
             PlayerLeading = State.PlayerLeading,
-            Trumps = State.Trumps
+            Trumps = State.Trumps,
+            AiCard = State.AiCard
         };
     }
 }

@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using _500_crawl.Authentication;
 using _500_crawl.Models.Game;
 using _500_crawl.Models.Cards;
-using System.Runtime.InteropServices;
 
 namespace _500_crawl.Controllers;
 
@@ -25,7 +24,106 @@ public class GameController : Controller
     [HttpPost]
     public IActionResult PlayCard([FromBody] PlayCardRequest request)
     {
+        // reload the session
+        GameSession session = new GameSession(database);
+        // we need to get the current user's game if it exists and assign it to a new
+        // game session
+        int gameId = HttpContext.Session.GetInt32("GameID")!.Value;
+        session.loadGame(gameId);
+        int card = request.Card;
+        // if (!session.State.PlayerLeading)
+        // {
+        //     // make sure teh player played a card of the correct suit.
+        //     if(!(card/10 == session.State.AiCard / 10))
+        //     {
+        //         ClientGameState visibleState = session.getVisibleState();
+        //         visibleState.Kitty = getKittyBits(session);
+        //         return Ok(visibleState);
+        //     }
+        // };
+        long playerHand = session.State.PlayerHand;
+        // confirm the player actually has the card
+        bool hasCard = (playerHand & (1L << card)) != 0;
+        if (!hasCard)
+        {
+            ClientGameState visState = session.getVisibleState();
+            visState.Kitty = getKittyBits(session);
+            return Ok(visState);
+        }
+        // create the ai
+        AI ai = new AI();
+        Suit trumps = session.State.Trumps;
+        long aiHand = session.State.AiHand;
+        int aiCard;
+        // if (!session.State.PlayerLeading)
+        // {
+        //     aiCard = ai.playLead(aiHand, session.State.AiState, trumps);
+        // } else
         
+        aiCard = ai.playFollow(aiHand, session.State.AiState, card, trumps);
+        if ((aiHand & (1L << aiCard)) == 0)
+        {
+            Console.WriteLine("ASD");
+            throw new Exception($"AI played card it does not own: {aiCard}");
+        }
+
+        Hand ah = new Hand();
+        ah.HandBits = session.State.AiHand;
+        Hand ph = new Hand();
+        ph.HandBits = session.State.PlayerHand;
+        ah.removeCard(aiCard);
+        ph.removeCard(card);
+        session.State.PlayerHand = ph.HandBits;
+        session.State.AiHand = ah.HandBits;
+        Console.WriteLine(card);
+        Console.WriteLine(aiCard);
+        // now evaluate the cards first ruling out thge dragon
+        bool playerWins = aiCard != 40;
+        if(card != 40)
+        {
+            bool sameSuit = aiCard/10 == card/10;
+            if (sameSuit)
+            {
+                playerWins = card%10 > aiCard%10;
+            }
+            else
+            {
+                playerWins = aiCard/10 != (int)trumps;
+            }
+        }
+        bool playerWon = false;
+        bool aiWon = false;
+        if (playerWins)
+        {
+            session.State.WonHands++;
+            playerWon = session.State.WonHands >= session.State.RoundTarget;
+        } 
+        else
+        {
+            session.State.LostHands++;
+            aiWon = session.State.LostHands > 10 - session.State.RoundTarget;
+        }
+
+        if (playerWon || aiWon)
+        {
+            if (playerWon)
+            {
+                session.State.AiHealth -= 50 * session.State.RoundTarget - 50;
+            } else
+            {
+                session.State.PlayerHealth -= 50 * session.State.RoundTarget - 50;
+            }
+            session.nextRound();
+            ClientGameState visState = session.getVisibleState();
+            visState.Kitty = getKittyBits(session);
+            session.saveGame();
+            return Ok(visState);
+        }
+        session.State.AiCard = aiCard;
+        session.saveGame();
+        ClientGameState visibleState = session.getVisibleState();
+        visibleState.AiCard = aiCard;
+        return Ok(visibleState);
     }
 
     [HttpPost]

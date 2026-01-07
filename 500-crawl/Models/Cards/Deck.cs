@@ -16,6 +16,7 @@ public class Deck
     public Deck(int seed)
     {
         deck = Shuffle(seed);
+        CurrentCard = 0;
     }
 
     /// <summary>
@@ -103,10 +104,12 @@ public class Deck
          }
         // make the array to store teh cards
         int[] drawn = new int[count];
+        int startingCurrentCard = CurrentCard;
         for (int i = 0; i < count; i++)
         {
-            drawn[i] = deck[i+CurrentCard];
+            drawn[i] = deck[i+startingCurrentCard];
             CurrentCard++;
+            
         }
         return drawn;
     }

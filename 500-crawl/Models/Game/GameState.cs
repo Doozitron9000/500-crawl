@@ -24,4 +24,5 @@ public class GameState
     public bool PlayerLeading { get; set; }
     public Suit Trumps { get; set; }
     public long AiState { get; set; }
+    public int AiCard { get; set; }
 }

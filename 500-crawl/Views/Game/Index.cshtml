@@ -76,10 +76,10 @@
         </div>
     </div>
     <div id="play-area">
-        <h2 id="player-health" class="health">@Model.PlayerHealth</h2>
-        <h2 id="ai-health" class="health">@Model.AiHealth</h2>
-        <h2 id="player-wins" class="health">@Model.WonHands</h2>
-        <h2 id="ai-wins" class="health">@Model.LostHands</h2>
+        <h2 id="player-health" class="health"></h2>
+        <h2 id="ai-health" class="health"></h2>
+        <h2 id="player-wins" class="health"></h2>
+        <h2 id="ai-wins" class="health"></h2>
         <h2 id="target-score" class="health">@Model.RoundTarget</h2>
         <h2 id="trumps" class="health">@Model.Trumps</h2>
         <div id="decision-screen">
@@ -133,7 +133,13 @@
             <button class="main-button" id="kitty_select">Finished</button>
         </div>
         <div id="playing-screen">
-
+            <div class="left"></div>
+            <div class="right">
+                <div id="opponent-card" class="card">
+                <h1 id="opponent-card-v" class="card-value"></h1>
+                <h3 id="opponent-card-s" class="card-suit"></h3>
+            </div>
+            </div>
         </div>
         <div id="card-area">
             <ul id="card-list" class="card-display">

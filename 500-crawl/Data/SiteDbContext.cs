@@ -51,6 +51,7 @@ public class SiteDbContext : DbContext
             e.Property(g => g.PlayerLeading).HasColumnName("player_leading");
             e.Property(g => g.Trumps).HasColumnName("trumps");
             e.Property(g => g.AiState).HasColumnName("ai_state");
+            e.Property(g => g.AiCard).HasColumnName("ai_card");
         });
     }
 }

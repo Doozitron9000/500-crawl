@@ -131,6 +131,8 @@ body {
     display: flex;
     justify-content: center;
     user-select: none;
+    max-height: 300px;
+    max-width: 200px;
 }
 
 .card-value {

@@ -125,7 +125,31 @@ function updateGame(){
     }
     // now sort leading, trumps, and all teh rest of it
     leading = receivedGameState.leading;
+
+    // get the opponents card
+    const opponentCardValue = receivedGameState.aiCard;
+    const opponentValue = opponentCardValue%10;
+    const opponentSuit = Math.floor(opponentCardValue/10);
     
+    const opponentCard = document.getElementById("opponent-card");
+    const opponentSuitArea = document.getElementById("opponent-card-s");
+    const opponentValueArea = document.getElementById("opponent-card-v");
+    opponentValueArea.textContent = opponentValue;
+    opponentSuitArea.textContent = opponentSuit;
+
+    opponentCard.dataset.suit = opponentSuit;
+    opponentCard.dataset.value = opponentValue;
+    
+    // post the player wins and loss text
+    console.log(receivedGameState.wonHands)
+    const winField = document.getElementById("player-wins");
+    winField.textContent = receivedGameState.wonHands;
+    const lossField = document.getElementById("ai-wins");
+    lossField.textContent = receivedGameState.lostHands;
+    const phpField = document.getElementById("player-health");
+    phpField.textContent = receivedGameState.playerHealth;
+    const aihpField = document.getElementById("ai-health");
+    aihpField.textContent = receivedGameState.aiHealth;
 }
 
 // update game should always fire once on load
@@ -284,6 +308,7 @@ document.getElementById("kitty_select").addEventListener("click", async (e) => {
 async function playCard(value) {
     // now send this to the server and get the new game state from it
     const response = await fetch("/Game/PlayCard", {
+        
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -292,7 +317,7 @@ async function playCard(value) {
             card: Number(value),
         })
     });
-
+    
     const newGameState = await response.json();
     // now we have the new game state we can update the game and re-render it
     receivedGameState = newGameState;
