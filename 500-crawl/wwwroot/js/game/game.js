@@ -128,7 +128,7 @@ function updateGame(){
 
     // get the opponents card
     const opponentCardValue = receivedGameState.aiCard;
-    const opponentValue = opponentCardValue%10;
+    const opponentValue = opponentCardValue%10 + 1;
     const opponentSuitValue = Math.floor(opponentCardValue/10);
     const opponentSuit = Object.values(Suits)[opponentSuitValue];
     
@@ -139,10 +139,9 @@ function updateGame(){
     opponentSuitArea.textContent = opponentSuit;
 
     opponentCard.dataset.suit = opponentSuit;
-    opponentCard.dataset.value = opponentValue;
+    opponentCard.dataset.value = opponentValue+1;
     
     // post the player wins and loss text
-    console.log(receivedGameState.wonHands)
     const winField = document.getElementById("player-wins");
     winField.textContent = receivedGameState.wonHands;
     const lossField = document.getElementById("ai-wins");
@@ -151,6 +150,11 @@ function updateGame(){
     phpField.textContent = receivedGameState.playerHealth;
     const aihpField = document.getElementById("ai-health");
     aihpField.textContent = receivedGameState.aiHealth;
+    const trumpText = Object.values(Suits)[receivedGameState.trumps];
+    const trumpField = document.getElementById("trumps");
+    trumpField.textContent = trumpText
+    const targetScore = document.getElementById("target-score");
+    targetScore.textContent = receivedGameState.roundTarget;
 }
 
 // update game should always fire once on load

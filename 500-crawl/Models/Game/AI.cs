@@ -218,21 +218,30 @@ public class AI
     {
         int suitInt = (int)suit * 10;
         int currentBest = 100;
+        int currentBestI = 0;
         for(int i = suitInt; i < suitInt+10; i++)
         {
             if((cards & (1L << i)) != 0)
             {   
                 int iValue = i%10;
-                if(iValue < currentBest) currentBest = i;
-                if(iValue > targetValue) return i;
+                if(iValue < currentBest)
+                {
+                    currentBest = iValue;
+                    currentBestI = i;
+                }
+                if(iValue > targetValue%10) {
+                    Console.WriteLine("b");
+                    return i;
+                }
             }
         }
+        Console.WriteLine("a");
         // if we made it here we are going to lose so play the dragon if applicable
         if (canPlayDragon) return 40;
         if (currentBest == 100)
         {
             throw new InvalidOperationException("Failed to get best card of suit as no cards of that suit are present");
         }
-        return currentBest;
+        return currentBestI;
     }
 }

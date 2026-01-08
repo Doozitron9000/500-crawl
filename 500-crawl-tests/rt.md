@@ -6,3 +6,4 @@ start a new game
 leave and return and make sure the game remains the same.
 play one round keeping and eye on the ai's move and ensure results are being correctly validated
 make sure health dropped correctly after the game
+make sure the correct number of lost tricks cause you to lose the game
